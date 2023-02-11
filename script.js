@@ -1,40 +1,33 @@
-let counter = 0;
-show(counter);
+const menuBtn = document.querySelector(".menu-btn");
+const navigation = document.querySelector(".navigation");
+console.log(menuBtn);
+menuBtn.addEventListener("click", () => {
+  menuBtn.classList.toggle("active");
+  navigation.classList.toggle("active");
+});
 
-function navigate(flag) {
-  counter += flag;
-  show(counter);
-}
+//javascript for video slider
+const btns = document.querySelectorAll(".nav-btn");
+const slides = document.querySelectorAll(".video-slide");
+const contents = document.querySelectorAll(".content");
 
-function show(count) {
-  let slides = document.getElementsByClassName("slide");
+const sliderNav = (manual) => {
+  btns.forEach((btn) => {
+    btn.classList.remove("active");
+  });
+  slides.forEach((slides) => {
+    slides.classList.remove("active");
+  });
+  contents.forEach((content) => {
+    content.classList.remove("active");
+  });
+  btns[manual].classList.add("active");
+  slides[manual].classList.add("active");
+  contents[manual].classList.add("active");
+};
 
-  for (let x of slides) {
-    x.style.display = "none";
-  }
-  if (count < 0) {
-    count = slides.length - 1;
-    counter = slides.length - 1;
-  }
-  if (count >= slides.length) {
-    count = 0;
-    counter = 0;
-  }
-
-  slides[count].style.display = "block";
-  setTimeout(() => {
-    const MAX = 4;
-    // Get an initial random value.
-    // Between 0 and 0.999999 (inclusive)
-    const initialRandom = Math.random();
-    // Multiply it by our MAX, 4.
-    // Will be between 0 and 3.999999 (inclusive)
-    const multiplied = initialRandom * MAX;
-    // Round it down using Math.floor.
-    // Will be 0, 1, 2, or 3.
-    const answer = Math.floor(multiplied);
-    show(answer);
-  }, 2000);
-}
-
-
+btns.forEach((btn, i) => {
+  btn.addEventListener("click", () => {
+    sliderNav(i);
+  });
+});
