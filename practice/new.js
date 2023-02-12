@@ -75,22 +75,69 @@ const data = [
 
 const element = document.querySelector(".widget-image-asset-carousel");
 
-const htmlElement = `<div style="color:blue;font-size:10px;">
-<section class="product"> 
-<h2 class="product-category"  style="text-align: center; text-transform: uppercase">Best Selling Product</h2>
+const htmlElement = `<section style="margin: 0.5rem 0rem; padding: 5rem 0rem">
+  <h2 style="text-align: center; text-transform: uppercase">Recently Viewed</h2>
+  <div style="display: flex; justify-content: flex-end; padding-right: 10px">
+    <div style="width: 80px; display: flex; justify-content: space-between">
+      <span
+        class="arrowBtn left"
+        style="
+          border-radius: 50%;
+          border: 1px solid rgb(47, 47, 48);
+          color: rgb(47, 47, 48);
+          height: 30px;
+          width: 30px;
+          text-align: center;
+          font-weight: 700;
+        "
+        >&#10094
+     </span>
+        
+     <span
+        class="arrowBtn right"
+        style="
+          border-radius: 50%;
+          border: 1px solid rgb(47, 47, 48);
+          color: rgb(47, 47, 48);
+          height: 30px;
+          width: 30px;
+          text-align: center;
+          font-weight: 700;
+        "
+        >&#10095
+     </span>
+    </div>
+  </div>
+  <div
+    id="grandParent"
+    style="display: grid; place-items: center; width: 100vw"
+    width: 100vw"
+  >
+    <div
+      id="slider-container"
+      style="
+        height: 500px;
+        width: 85vw;
+        position: relative;
+        overflow: hidden;
+        padding: 20px;
+      "
+    >
+      <div
+        id="slider"
+        class="slider"
+        style="
+          display: flex;
+          height: 100%;
+          transition: all 0.5s ease 0s;
+          margin-left: -75%;
+        "
+      >
 
-<div class="product-container"  style="height: 500px; width: 85vw; position: relative; overflow: hidden; padding: 20px;">
-<div className="product"  style="display: flex;height: 100%;transition: all 0.5s ease 0s;margin-left: -75%;"></div>
-
-</div>
-
-<div style="display: flex; justify-content: space-between;"> 
-<button class="pre-btn">&#10094</button>
-<button class="nxt-btn">&#10095</button>
-</div>
-
-</section>
-</div>`;
+      </div>
+    </div>
+  </div>
+</section>`;
 
 element.insertAdjacentHTML("afterend", htmlElement);
 
@@ -98,28 +145,31 @@ let html = ``;
 for (const item of data) {
   html =
     html +
-    `<div className="product-card">
-  <div class="product-image">
-  <span class="discount-tag">${item?.discount}</span>
-  <img src=${item?.img} alt="" class="product-thumb" />
-  <button className="card-btn">Add to wishlist</button>
-  </div>
-  <div className="product-info">
-  <h2 className="product-brand">${item?.brand}</h2>
-  <p className="product-short-description">${item?.description}</p>
-  <span className="price">${item?.price}</span>
-  <span className="actual-price">${item?.price}</span>
-  </div>
-  </div>;
-  `;
+    `<div
+      class="slide"
+      style="
+        flex: 0 0 auto;
+        width: 250px;
+        height: 450px;
+        margin-right: 40px;
+      "
+    >
+      <a href="Hp"
+        ><img
+          src=${item?.img}
+        />
+        <p style="text-align: center">${item?.productName}</p></a
+      >
+    </div>
+    `;
 }
 
-const container = document.querySelector(".product-container");
-const slider = document.querySelector(".product");
+const slider = document.querySelector(".slider");
 slider.innerHTML = html;
-var slides = document.getElementsByClassName("product-card").length;
-const preButton = document.querySelector(".pre-btn");
-const nextButton = document.querySelector(".nxt-btn");
+var container = document.getElementById("grandParent");
+var slides = document.getElementsByClassName("slide").length;
+const leftArrow = document.querySelector(".left");
+const rightArrow = document.querySelector(".right");
 
 var currentPosition = 0;
 var currentMargin = 0;
@@ -135,6 +185,7 @@ function checkWidth() {
   containerWidth = container.offsetWidth;
   setParams(containerWidth);
 }
+
 function setParams(w) {
   if (w < 551) {
     slidesPerPage = 1;
@@ -149,6 +200,7 @@ function setParams(w) {
       }
     }
   }
+
   slidesCount = slides - slidesPerPage;
   if (currentPosition > slidesCount) {
     currentPosition -= slidesPerPage;
@@ -156,13 +208,13 @@ function setParams(w) {
   currentMargin = -currentPosition * (100 / slidesPerPage);
   slider.style.marginLeft = currentMargin + "%";
   if (currentPosition > 0) {
-    preButton.classList.remove("inactive");
+    leftArrow.classList.remove("inactive");
   }
   if (currentPosition < slidesCount) {
-    nextButton.classList.remove("inactive");
+    rightArrow.classList.remove("inactive");
   }
   if (currentPosition >= slidesCount) {
-    nextButton.classList.add("inactive");
+    rightArrow.classList.add("inactive");
   }
 }
 
@@ -175,10 +227,10 @@ function slideRight() {
     currentPosition--;
   }
   if (currentPosition === 0) {
-    preButton.classList.add("inactive");
+    leftArrow.classList.add("inactive");
   }
   if (currentPosition < slidesCount) {
-    nextButton.classList.remove("inactive");
+    rightArrow.classList.remove("inactive");
   }
 }
 
@@ -189,12 +241,14 @@ function slideLeft() {
     currentPosition++;
   }
   if (currentPosition == slidesCount) {
-    nextButton.classList.add("inactive");
+    rightArrow.classList.add("inactive");
   }
   if (currentPosition > 0) {
-    preButton.classList.remove("inactive");
+    leftArrow.classList.remove("inactive");
   }
 }
+
+
 
 leftArrow.addEventListener("click", () => {
   slideRight();
