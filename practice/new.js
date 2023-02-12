@@ -109,7 +109,7 @@ const htmlElement = `<section style="margin: 0.5rem 0rem; padding: 5rem 0rem">
     </div>
   </div>
   <div
-    id="grandParent"
+    id="product-container"
     style="display: grid; place-items: center; width: 100vw"
     width: 100vw"
   >
@@ -166,7 +166,7 @@ for (const item of data) {
 
 const slider = document.querySelector(".slider");
 slider.innerHTML = html;
-var container = document.getElementById("grandParent");
+var container = document.getElementById("product-container");
 var slides = document.getElementsByClassName("slide").length;
 const leftArrow = document.querySelector(".left");
 const rightArrow = document.querySelector(".right");
@@ -175,25 +175,23 @@ var currentPosition = 0;
 var currentMargin = 0;
 var slidesPerPage = 0;
 var slidesCount = slides - slidesPerPage;
-var containerWidth = container.offsetWidth ?? container.offsetWidth;
-var prevKeyActive = false;
-var nextKeyActive = true;
+var containerWidth = container.offsetWidth;
 
 window.addEventListener("resize", checkWidth);
 
 function checkWidth() {
   containerWidth = container.offsetWidth;
-  setParams(containerWidth);
+  getWidth(containerWidth);
 }
 
-function setParams(w) {
-  if (w < 551) {
+function getWidth(width) {
+  if (width < 551) {
     slidesPerPage = 1;
   } else {
-    if (w < 901) {
+    if (width < 901) {
       slidesPerPage = 2;
     } else {
-      if (w < 1101) {
+      if (width < 1101) {
         slidesPerPage = 3;
       } else {
         slidesPerPage = 4;
@@ -218,7 +216,7 @@ function setParams(w) {
   }
 }
 
-setParams();
+getWidth();
 
 function slideRight() {
   if (currentPosition != 0) {

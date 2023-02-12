@@ -133,9 +133,9 @@ window.addEventListener("resize", checkWidth);
 
 function checkWidth() {
   containerWidth = container.offsetWidth;
-  setParams(containerWidth);
+  getWidth(containerWidth);
 }
-function setParams(w) {
+function getWidth(w) {
   if (w < 551) {
     slidesPerPage = 1;
   } else {
@@ -166,7 +166,7 @@ function setParams(w) {
   }
 }
 
-setParams();
+getWidth();
 
 function slideRight() {
   if (currentPosition != 0) {
